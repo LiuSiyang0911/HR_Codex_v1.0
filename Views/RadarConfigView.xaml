@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="HR_Codex_v0.Views.RadarConfigView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:HR_Codex_v0.ViewModels"
+             Background="{StaticResource BgBrush}">
+    <UserControl.DataContext>
+        <vm:RadarConfigViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="雷达参数" Grid.Row="0" Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                    <Label Content="Nr (快时间长度)"/>
+                    <TextBox Text="{Binding Nr}" Margin="0,0,0,8"/>
+                    <Label Content="Ncut (距离截取长度)"/>
+                    <TextBox Text="{Binding Ncut}" Margin="0,0,0,8"/>
+                    <Label Content="Np (慢时间长度)"/>
+                    <TextBox Text="{Binding Np}" Margin="0,0,0,8"/>
+                    <Label Content="PRI (s)"/>
+                    <TextBox Text="{Binding Pri}" Margin="0,0,0,8"/>
+                    <Label Content="带宽 (MHz)"/>
+                    <TextBox Text="{Binding BandwidthMHz}" Margin="0,0,0,8"/>
+                    <Label Content="转台速度档位 (0~64)"/>
+                    <TextBox Text="{Binding Vptz}" Margin="0,0,0,8"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                    <Label Content="偏移量 Offset"/>
+                    <TextBox Text="{Binding Offset}" Margin="0,0,0,8"/>
+                    <Label Content="噪底 FFT Mean"/>
+                    <TextBox Text="{Binding FftMean}" Margin="0,0,0,8"/>
+                    <Label Content="Xlim (速度显示范围)"/>
+                    <TextBox Text="{Binding Xlim}" Margin="0,0,0,8"/>
+                    <Label Content="Rr (干涉距离门)"/>
+                    <TextBox Text="{Binding Rr}" Margin="0,0,0,8"/>
+                    <Label Content="CFAR 阈值倍率"/>
+                    <TextBox Text="{Binding Threshold}" Margin="0,0,0,8"/>
+                    <Label Content="最大检测点数"/>
+                    <TextBox Text="{Binding PointsMax}" Margin="0,0,0,8"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
+

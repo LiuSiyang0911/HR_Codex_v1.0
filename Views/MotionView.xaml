@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="HR_Codex_v0.Views.MotionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:HR_Codex_v0.ViewModels"
+             Background="{StaticResource BgBrush}">
+    <UserControl.DataContext>
+        <vm:MotionViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="速度设置" Grid.Row="0" Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="转速档位 (0~64):" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding Speed}" Width="80" Margin="8,0"/>
+                <Slider Value="{Binding Speed}" Minimum="0" Maximum="64" Width="300" VerticalAlignment="Center" Margin="8,0"/>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="转台控制" Grid.Row="1" Margin="0,0,0,12">
+            <UniformGrid Columns="4">
+                <Button Content="左转" Style="{StaticResource PrimaryButton}" Command="{Binding MoveLeftCommand}" Margin="8"/>
+                <Button Content="右转" Style="{StaticResource PrimaryButton}" Command="{Binding MoveRightCommand}" Margin="8"/>
+                <Button Content="停止" Style="{StaticResource DangerButton}" Command="{Binding StopCommand}" Margin="8"/>
+                <Button Content="使能" Style="{StaticResource SecondaryButton}" Command="{Binding EnableCommand}" Margin="8"/>
+                <Button Content="回读 ON" Style="{StaticResource SecondaryButton}" Command="{Binding ReadbackOnCommand}" Margin="8"/>
+                <Button Content="回读 OFF" Style="{StaticResource SecondaryButton}" Command="{Binding ReadbackOffCommand}" Margin="8"/>
+                <Button Content="开始查询" Style="{StaticResource SecondaryButton}" Command="{Binding QueryStartCommand}" Margin="8"/>
+                <Button Content="结束查询" Style="{StaticResource SecondaryButton}" Command="{Binding QueryStopCommand}" Margin="8"/>
+                <Button Content="查询内容" Style="{StaticResource SecondaryButton}" Command="{Binding QueryContentCommand}" Margin="8"/>
+            </UniformGrid>
+        </GroupBox>
+
+        <TextBlock Grid.Row="2" Text="{Binding StatusMessage}" Foreground="{StaticResource AccentBrush}" FontSize="12"/>
+    </Grid>
+</UserControl>
+

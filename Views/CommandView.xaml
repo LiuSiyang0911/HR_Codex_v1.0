@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="HR_Codex_v0.Views.CommandView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:HR_Codex_v0.ViewModels"
+             Background="{StaticResource BgBrush}">
+    <UserControl.DataContext>
+        <vm:CommandViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="波形选择" Grid.Row="0" Margin="0,0,0,12">
+            <ComboBox ItemsSource="{Binding Waveforms}" SelectedItem="{Binding SelectedWaveform}" 
+                      DisplayMemberPath="Name" Width="300" HorizontalAlignment="Left"/>
+        </GroupBox>
+
+        <GroupBox Header="指令编辑（14 字节 HEX）" Grid.Row="1" Margin="0,0,0,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <UniformGrid Columns="14" Grid.Row="0" Margin="0,0,0,8">
+                    <TextBox Text="{Binding ByteTexts[0], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[1], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[2], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[3], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[4], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[5], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[6], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[7], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[8], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[9], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[10], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[11], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[12], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                    <TextBox Text="{Binding ByteTexts[13], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumericBox}"/>
+                </UniformGrid>
+                <TextBox Grid.Row="1" Text="{Binding HexCommand, UpdateSourceTrigger=PropertyChanged}" 
+                         FontFamily="Consolas" FontSize="14"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="快捷操作" Grid.Row="2" Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="功放开" Style="{StaticResource PrimaryButton}" Command="{Binding RfOnCommand}" Margin="0,0,8,0"/>
+                <Button Content="功放关" Style="{StaticResource DangerButton}" Command="{Binding RfOffCommand}" Margin="0,0,8,0"/>
+                <Button Content="发送指令" Style="{StaticResource PrimaryButton}" Command="{Binding SendCommand}"/>
+            </StackPanel>
+        </GroupBox>
+
+        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Foreground="{StaticResource AccentBrush}" FontSize="12"/>
+    </Grid>
+</UserControl>
+

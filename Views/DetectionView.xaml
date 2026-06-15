@@ -1,0 +1,51 @@
+<UserControl x:Class="HR_Codex_v0.Views.DetectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:HR_Codex_v0.ViewModels"
+             Background="{StaticResource BgBrush}">
+    <UserControl.DataContext>
+        <vm:DetectionViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="检测点云" Grid.Row="0" Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="累计" Style="{StaticResource CaptionText}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBox Grid.Column="1" Text="{Binding AutoExportSessionLimit}" Style="{StaticResource NumericBox}"/>
+                <TextBlock Grid.Column="2" Text="场后自动导出 CSV 并清空，0 表示关闭" Style="{StaticResource CaptionText}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </Grid>
+        </GroupBox>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Points}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="场次" Binding="{Binding Session}" Width="80"/>
+                <DataGridTextColumn Header="距离 (m)" Binding="{Binding Range, StringFormat=F2}" Width="*"/>
+                <DataGridTextColumn Header="速度 (m/s)" Binding="{Binding Velocity, StringFormat=F2}" Width="*"/>
+                <DataGridTextColumn Header="幅度 (dB)" Binding="{Binding Amplitude, StringFormat=F2}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="导出 CSV" Style="{StaticResource PrimaryButton}" Command="{Binding SaveCsvCommand}" Margin="0,0,8,0"/>
+            <Button Grid.Column="1" Content="清空" Style="{StaticResource DangerButton}" Command="{Binding ClearCommand}" Margin="0,0,12,0"/>
+            <TextBlock Grid.Column="2" Text="{Binding StatusMessage}" VerticalAlignment="Center" Foreground="{StaticResource AccentBrush}" TextTrimming="CharacterEllipsis"/>
+        </Grid>
+    </Grid>
+</UserControl>
