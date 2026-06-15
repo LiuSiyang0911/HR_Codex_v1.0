@@ -1,9 +1,13 @@
 using HR_Codex_v0.Models;
+using HR_Codex_v0.Services.RecorderProtocol;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows;
 
@@ -18,6 +22,8 @@ namespace HR_Codex_v0.Services
         public static SignalProcessingService SignalProcessing { get; } = new SignalProcessingService();
         public static DataParserService DataParser { get; } = new DataParserService();
         public static RawDataSaveService RawDataSaver { get; } = new RawDataSaveService();
+        public static Hr23RecorderSession Hr23Recorder { get; } = new Hr23RecorderSession();
+        public static Hr23RecorderServer Hr23RecorderServer { get; } = CreateHr23RecorderServer();
         public static RadarConfig RadarConfig { get; } = new RadarConfig();
         public static ObservableCollection<DetectionPoint> DetectionPoints { get; } = new ObservableCollection<DetectionPoint>();
         public static int DetectionAutoExportSessionLimit { get; set; } = 100;
@@ -37,6 +43,20 @@ namespace HR_Codex_v0.Services
         {
             SignalProcessing.Initialize(RadarConfig);
             UdpService.DataReceived += (s, data) => RawDataSaver.Enqueue(data, data?.Length ?? 0);
+            UdpService.PacketReceived += (s, packet) => Hr23Recorder.OnUdpPacket(packet);
+            Hr23RecorderServer.LogMessage += (s, message) => Trace.WriteLine(message);
+        }
+
+        public static bool StartHr23RecorderServer()
+        {
+            return Hr23RecorderServer.Start();
+        }
+
+        public static void ShutdownHr23RecorderServer()
+        {
+            Hr23RecorderServer.Stop();
+            Hr23Recorder.Stop();
+            Hr23Recorder.Dispose();
         }
 
         public static void RunOnUi(Action action)
@@ -158,6 +178,19 @@ namespace HR_Codex_v0.Services
 
             IsCyclicAcquisitionActive = isActive;
             CyclicAcquisitionStateChanged?.Invoke(null, isActive);
+        }
+
+        private static Hr23RecorderServer CreateHr23RecorderServer()
+        {
+            string hostText = ConfigurationManager.AppSettings["Hr23RecorderHost"];
+            string portText = ConfigurationManager.AppSettings["Hr23RecorderPort"];
+            IPAddress address;
+            int port;
+            if (!IPAddress.TryParse(hostText, out address))
+                address = IPAddress.Loopback;
+            if (!int.TryParse(portText, out port) || port < 1 || port > 65535)
+                port = 7070;
+            return new Hr23RecorderServer(Hr23Recorder, address, port);
         }
     }
 

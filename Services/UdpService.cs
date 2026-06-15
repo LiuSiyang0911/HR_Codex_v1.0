@@ -23,6 +23,7 @@ namespace HR_Codex_v0.Services
         public string LastReceivedEndPointText => _lastReceivedPoint?.ToString() ?? "";
 
         public event EventHandler<byte[]> DataReceived;
+        public event EventHandler<UdpPacketReceivedEventArgs> PacketReceived;
         public event EventHandler<string> LogMessage;
         public event EventHandler<bool> ConnectionStateChanged;
 
@@ -159,6 +160,18 @@ namespace HR_Codex_v0.Services
 
                         if (sourceChanged)
                             LogMessage?.Invoke(this, $"收到数据来源: {source}");
+
+                        var packet = new UdpPacketReceivedEventArgs(
+                            buffer,
+                            new IPEndPoint(source.Address, source.Port));
+                        try
+                        {
+                            PacketReceived?.Invoke(this, packet);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogMessage?.Invoke(this, $"Recorder packet handler failed: {ex.Message}");
+                        }
 
                         DataReceived?.Invoke(this, buffer);
                     }

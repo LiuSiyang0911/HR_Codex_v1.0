@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Numerics" />
@@ -56,6 +57,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -84,6 +86,11 @@
     <Compile Include="Models\RadarGlobalState.cs" />
     <Compile Include="Services\AppServices.cs" />
     <Compile Include="Services\UdpService.cs" />
+    <Compile Include="Services\UdpPacketReceivedEventArgs.cs" />
+    <Compile Include="Services\RecorderProtocol\Hr23RecorderModels.cs" />
+    <Compile Include="Services\RecorderProtocol\Hr23RecorderServer.cs" />
+    <Compile Include="Services\RecorderProtocol\Hr23RecorderSession.cs" />
+    <Compile Include="Services\RecorderProtocol\Hr23RecorderState.cs" />
     <Compile Include="Services\RawDataSaveService.cs" />
     <Compile Include="Services\SignalProcessingService.cs" />
     <Compile Include="Services\DataParserService.cs" />
